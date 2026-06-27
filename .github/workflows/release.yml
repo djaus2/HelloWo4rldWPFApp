@@ -39,4 +39,3 @@ jobs:
         files: HelloWpfApp-${{ github.ref_name }}.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-``
