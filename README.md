@@ -1,6 +1,6 @@
 # Simple Hello World for Releases
 
-This is a simple "Hello World" project designed to demonstrate the process of creating and managing releases in a software development workflow. The project includes basic code that outputs "Hello, World!" to the console, along with instructions for building and releasing the application.
+This is a simple "Hello World" project designed to demonstrate the process of creating and managing releases in a software development workflow. The project includes basic code that outputs "Hello, World!" to a form, along with instructions for building and releasing the application.
 
 ## Getting Started
 
