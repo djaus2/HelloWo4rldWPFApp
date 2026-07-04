@@ -40,7 +40,7 @@ jobs:
     - name: Publish WPF App
       shell: pwsh
       run: |
-        dotnet publish SwissTimingDisplay/SwissTimingDisplay.csproj `
+        dotnet publish "$env:APP_NAME\$env:APP_NAME.csproj" `
           -c Release `
           -r win-x64 `
           --self-contained true `
