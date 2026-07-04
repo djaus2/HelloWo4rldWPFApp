@@ -64,3 +64,6 @@ To use this Release mechanism in another WPF project:
 env:
       APP_NAME: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.app_name || 'HelloWo4rldWPFApp' }}
  ```
+
+ ## Future Improvements
+ - Pass the app name as a parameter from release.ps1
