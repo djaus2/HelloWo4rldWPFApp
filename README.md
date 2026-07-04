@@ -35,10 +35,32 @@ To create a release for the application, follow these steps:
 
 ## Reuse
 
+> Assumption: The app project folder is one deep in solution folder.  
+> As per here:  
+```  
+SolutionFolder
+├─ HelloWo4rldWPFApp.sln
+├─ etc ...
+├─ HelloWo4rldWPFApp
+│  ├─ HelloWo4rldWPFApp.csproj
+│  ├─ App.xaml
+│  ├─ App.xaml.cs
+│  ├─ MainWindow.xaml
+│  ├─ MainWindow.xaml.cs
+│  └─ etc ...
+└─ .github
+   └─ workflows
+      └─ release.yml
+```
+
 To use this Release mechanism in another WPF project:
-- Copy the release.ps1 script to the new project.
-- mdir .GitHub
-- mkdir .GitHub/workflows
-- copy .github/workflows/release.yml to the new project in that workflows folder
-- In that .yml file change the default app name HelloWpfApp to the new app name. Look for:  
-```default: 'HelloWpfApp'```
+- Copy the release.ps1 script to the root of the new project.
+- In the target root:
+  - mkdir .github
+  - mkdir .github/workflows
+- copy ``.github/workflows/release.yml`` from here to the new project in the workflows folder
+- In the target ``release.yml`` file change the default app name ``HelloWo4rldWPFApp`` to the new app name. Look for:  
+```
+env:
+      APP_NAME: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.app_name || 'HelloWo4rldWPFApp' }}
+ ```

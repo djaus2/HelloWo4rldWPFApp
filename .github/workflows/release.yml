@@ -12,7 +12,7 @@ on:
       app_name:
         description: 'Optional application name to use for artifact/release'
         required: false
-        default: 'HelloWo4rldWPFApp'
+        # default intentionally removed; job-level env provides the single source-of-truth
 
 permissions:
   contents: write   # Required to create releases
