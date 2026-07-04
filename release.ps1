@@ -27,7 +27,7 @@ if ($version) {
 }
 else {
     if (Test-Path $versionFile) {
-        $lastVersion = Get-Content $versionFile
+        $lastVersion = (Get-Content $versionFile -Raw).Trim()
         Write-Host "Last version found: $lastVersion"
 
         $version = Increment-Version $lastVersion
@@ -78,6 +78,8 @@ while ($attempt -lt $maxAttempts) {
 
     if ($exit -eq 0) {
         Write-Host "✅ Release triggered for $version"
+        # persist version only after successful push
+        Set-Content $versionFile $version
         exit 0
     }
 
