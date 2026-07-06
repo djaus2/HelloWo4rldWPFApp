@@ -1,6 +1,11 @@
 # Create a new Release, auto incremented
 param(
-    [string]$version
+    [string]$version,
+    [switch]$DispatchWorkflow,
+    [string]$AppName = 'HelloWo4rldWPFApp',
+    [string]$WorkflowFile = '.github/workflows/release.yml',
+    [string]$WorkflowRef = 'main',
+    [switch]$AllowCachedAuth  # opt-in to allow cached credentials
 )
 
 $versionFile = ".version"
@@ -80,6 +85,22 @@ while ($attempt -lt $maxAttempts) {
         Write-Host "✅ Release triggered for $version"
         # persist version only after successful push
         Set-Content $versionFile $version
+
+        if ($DispatchWorkflow) {
+            $gh = Get-Command gh -ErrorAction SilentlyContinue
+            if (-not $gh) {
+                Write-Warning "Cannot dispatch workflow: GitHub CLI 'gh' not found. Install and run 'gh auth login' to enable dispatch."
+            } else {
+                Write-Host "Dispatching workflow $WorkflowFile (ref $WorkflowRef) with app_name='$AppName'..."
+                & gh workflow run $WorkflowFile --ref $WorkflowRef -f app_name="$AppName"
+                if ($LASTEXITCODE -ne 0) {
+                    Write-Warning "gh workflow run failed with exit code $LASTEXITCODE"
+                } else {
+                    Write-Host "Dispatched workflow successfully."
+                }
+            }
+        }
+
         exit 0
     }
 
@@ -101,3 +122,31 @@ while ($attempt -lt $maxAttempts) {
 
 Write-Error "Exceeded maximum attempts ($maxAttempts) trying to find a unique version tag. Aborting."
 exit 1
+
+function Require-NoCachedAuth {
+  if ($AllowCachedAuth) { return }
+
+  # 1) gh logged in?
+  $gh = Get-Command gh -ErrorAction SilentlyContinue
+  if ($gh) {
+    try { gh auth status -t > $null 2>&1; if ($LASTEXITCODE -eq 0) { Write-Error 'gh is logged in — clear gh auth or pass -AllowCachedAuth to proceed.'; exit 1 } } catch {}
+  }
+
+  # 2) credential helper configured? assume it may cache creds
+  $credHelper = git config --get credential.helper 2>$null
+  if ($credHelper) {
+    Write-Error "Git credential helper '$credHelper' is configured — cached credentials may exist. Clear them or run with -AllowCachedAuth."
+    exit 1
+  }
+
+  # 3) SSH agent keys present
+  try {
+    $sshOut = & ssh-add -l 2>$null
+    if ($sshOut -and $sshOut -notmatch 'The agent has no identities') {
+      Write-Error "SSH agent has loaded keys. Clear with 'ssh-add -D' or run with -AllowCachedAuth."
+      exit 1
+    }
+  } catch { }
+}
+
+Require-NoCachedAuth
