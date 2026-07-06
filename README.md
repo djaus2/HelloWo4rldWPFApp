@@ -67,6 +67,6 @@ env:
 
  ## Future Improvements
  - Pass the app name as a parameter from release.ps1 to the release.yml file so that it can be used in the workflow without needing to edit the workflow file.
- - Dispensing withthat idea.
+ - Dispensing with that idea.
  - That would mean making secrets available.
- - So as is need to be logged into GitHub with the repository credentials, ie can push, for release.ps1 to work.
+ - So as is, need to be logged into GitHub with the repository credentials, ie can push, for release.ps1 to work.
