@@ -1,19 +1,19 @@
-name: Build and Release WPF App
+﻿name: Build and Release WPF App
 
 on:
   push:
     branches:
       - master
       - main        # Run on every commit
-    tags:
-      - 'v*'        # Run on version tags (v1.0.0 etc.)
-  workflow_dispatch:
-    inputs:
-      app_name:
-        description: 'Optional application name to use for artifact/release'
-        required: false
-        # default intentionally removed; job-level env provides the single source-of-truth
-
+#     tags:
+#       - 'v*'        # Run on version tags (v1.0.0 etc.)
+#   workflow_dispatch:
+#     inputs:
+#       app_name:
+#         description: 'Optional application name to use for artifact/release'
+#         required: false
+#         # default intentionally removed; job-level env provides the single source-of-truth
+# 
 permissions:
   contents: write   # Required to create releases
 
@@ -58,12 +58,12 @@ jobs:
         name: ${{ env.APP_NAME }}-${{ github.ref_name }}
         path: ${{ env.APP_NAME }}-${{ github.ref_name }}.zip
 
-    - name: Create GitHub Release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ env.APP_NAME }}-${{ github.ref_name }}.zip
-      env:
-        # Provide a Personal Access Token (PAT) with appropriate permissions as a repository secret
-        # Create a secret named `RELEASE_PAT` in the repo (Settings → Secrets → Actions) and set it to your token.
-        GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+#     - name: Create GitHub Release
+#       if: startsWith(github.ref, 'refs/tags/')
+#       uses: softprops/action-gh-release@v1
+#       with:
+#         files: ${{ env.APP_NAME }}-${{ github.ref_name }}.zip
+#       env:
+#         # Provide a Personal Access Token (PAT) with appropriate permissions as a repository secret
+#         # Create a secret named `RELEASE_PAT` in the repo (Settings â†’ Secrets â†’ Actions) and set it to your token.
+#         GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
