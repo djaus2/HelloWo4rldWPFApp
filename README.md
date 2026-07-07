@@ -110,3 +110,16 @@ Backup created: .github\workflows\release.yml.bak.disable
 ...
 Workflow disabled and change pushed to origin/master.
 ```
+
+>This is what happens when it is disabled:
+```
+PS C:\User\source\repos\HelloWo4rldWPFApp> scripts\release.ps1
+C:\Users\david\source\repos\HelloWo4rldWPFApp\scripts\release.ps1 : Release workflow does not appear active (release action / trigger missing or commented). Aborting to avoid incrementing the version.
+At line:1 char:1
++ scripts\release.ps1
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,release.ps1
+
+To enable releases, run scripts/enable-release-workflow.ps1 or re-enable the workflow manually.
+```

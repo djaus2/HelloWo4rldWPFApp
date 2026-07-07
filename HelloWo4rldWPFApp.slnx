@@ -3,6 +3,7 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/scripts/">
+    <File Path=".github/workflows/release.yml.bak.disable" />
     <File Path="scripts/clean-release-tags.ps1" />
     <File Path="scripts/clear-remote-tags.ps1" />
     <File Path="scripts/commit-scripts-updates.ps1" />
@@ -12,6 +13,6 @@
     <File Path="scripts/release.ps1" />
     <File Path=".github/workflows/release.yml" />
   </Folder>
-  <Project Path="HelloWo4rldWPFApp/HelloWo4rldWPFApp.csproj" />
   <File Path=".github/workflows/release.yml" />
+  <Project Path="HelloWo4rldWPFApp/HelloWo4rldWPFApp.csproj" />
 </Solution>
