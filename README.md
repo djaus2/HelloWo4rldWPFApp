@@ -79,7 +79,7 @@ env:
    - Run scripts/enable-release-workflow.ps1  Changes release.yml so that when release.ps1 is run a new release IS created.
    - Run scripts/disable-release-workflow.ps1  Changes release.yml so that when release.ps1 is run no new release is created.
    - Leave in disable state between releases.
-   - Both involve a repository commit so user needs to be logged in with push rights.
+   - Both involve a repository commit so user needs to be logged in with push rights which is the protection we wanted all along! :)
 
    ## An Example of the above in action:
    - Enable Release
