@@ -14,8 +14,8 @@ on:
 #         required: false
 #         # default intentionally removed; job-level env provides the single source-of-truth
 # 
-permissions:
-  contents: write   # Required to create releases
+# permissions:
+#  contents: write   # Required to create releases
 
 # APP_NAME is resolved per-run so it can be optionally overridden when using workflow_dispatch
 
