@@ -26,40 +26,6 @@ function Increment-Version($ver) {
     }
 }
 
-# Require explicit auth behavior: abort if cached credentials detected unless allowed
-function Require-NoCachedAuth {
-  param()
-  if ($AllowCachedAuth) { return }
-
-  # 1) gh logged in?
-  $gh = Get-Command gh -ErrorAction SilentlyContinue
-  if ($gh) {
-    try {
-      gh auth status -t > $null 2>&1
-      if ($LASTEXITCODE -eq 0) {
-        Write-Error "gh is logged in — clear gh auth or pass -AllowCachedAuth to proceed."
-        exit 1
-      }
-    } catch {}
-  }
-
-  # 2) credential helper configured? assume it may cache creds
-  $credHelper = git config --get credential.helper 2>$null
-  if ($credHelper) {
-    Write-Error "Git credential helper '$credHelper' is configured — cached credentials may exist. Clear them or run with -AllowCachedAuth."
-    exit 1
-  }
-
-  # 3) SSH agent keys present
-  try {
-    $sshOut = & ssh-add -l 2>$null
-    if ($sshOut -and $sshOut -notmatch 'The agent has no identities') {
-      Write-Error "SSH agent has loaded keys. Clear with 'ssh-add -D' or run with -AllowCachedAuth."
-      exit 1
-    }
-  } catch { }
-}
-
 # ✅ Step 1: Determine version
 if ($version) {
     Write-Host "Using provided version: $version"
@@ -83,9 +49,6 @@ else {
 $maxAttempts = 20
 $attempt = 0
 $remoteName = "origin"
-
-# enforce auth policy before attempting any pushes
-Require-NoCachedAuth
 
 while ($attempt -lt $maxAttempts) {
     $attempt++
@@ -159,3 +122,31 @@ while ($attempt -lt $maxAttempts) {
 
 Write-Error "Exceeded maximum attempts ($maxAttempts) trying to find a unique version tag. Aborting."
 exit 1
+
+function Require-NoCachedAuth {
+  if ($AllowCachedAuth) { return }
+
+  # 1) gh logged in?
+  $gh = Get-Command gh -ErrorAction SilentlyContinue
+  if ($gh) {
+    try { gh auth status -t > $null 2>&1; if ($LASTEXITCODE -eq 0) { Write-Error 'gh is logged in — clear gh auth or pass -AllowCachedAuth to proceed.'; exit 1 } } catch {}
+  }
+
+  # 2) credential helper configured? assume it may cache creds
+  $credHelper = git config --get credential.helper 2>$null
+  if ($credHelper) {
+    Write-Error "Git credential helper '$credHelper' is configured — cached credentials may exist. Clear them or run with -AllowCachedAuth."
+    exit 1
+  }
+
+  # 3) SSH agent keys present
+  try {
+    $sshOut = & ssh-add -l 2>$null
+    if ($sshOut -and $sshOut -notmatch 'The agent has no identities') {
+      Write-Error "SSH agent has loaded keys. Clear with 'ssh-add -D' or run with -AllowCachedAuth."
+      exit 1
+    }
+  } catch { }
+}
+
+Require-NoCachedAuth
