@@ -3,13 +3,40 @@ param(
     [string]$version
 )
 
-# Determine repository root relative to script location so script can run from scripts\ folder
+# Resolve repository root relative to script location so script can run from scripts\ folder
 if ($PSScriptRoot) {
     $repoRoot = Split-Path -Parent $PSScriptRoot
 } else {
     # fallback if run interactively
     $repoRoot = (Get-Location).Path
 }
+
+# --- Safety check: ensure workflow will create a release before touching versions ---
+$workflowPath = Join-Path $repoRoot ".github\workflows\release.yml"
+if (-not (Test-Path $workflowPath)) {
+    Write-Error "Workflow file not found at $workflowPath. Aborting to avoid unintended version changes."
+    exit 1
+}
+
+$wfLines = Get-Content -Path $workflowPath -ErrorAction SilentlyContinue
+if (-not $wfLines) {
+    Write-Error "Unable to read workflow file at $workflowPath. Aborting to avoid unintended version changes."
+    exit 1
+}
+
+# Consider only non-commented lines when detecting active configuration
+$activeLines = $wfLines | Where-Object { $_.TrimStart() -notmatch '^\s*#' }
+
+$hasReleaseAction = $activeLines -join "`n" -match 'uses:\s*softprops/action-gh-release'
+$hasTagsTrigger = $activeLines -join "`n" -match 'tags:\s*' -and ($activeLines -join "`n" -match "v\*")
+$hasWorkflowDispatch = $activeLines -join "`n" -match 'workflow_dispatch:'
+
+if (-not $hasReleaseAction -or -not ($hasTagsTrigger -or $hasWorkflowDispatch)) {
+    Write-Error "Release workflow does not appear active (release action / trigger missing or commented). Aborting to avoid incrementing the version."
+    Write-Host "To enable releases, run scripts/enable-release-workflow.ps1 or re-enable the workflow manually."
+    exit 1
+}
+# --- end safety check ---
 
 $versionFile = Join-Path $repoRoot ".version"
 

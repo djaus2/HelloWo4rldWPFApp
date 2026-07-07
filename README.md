@@ -28,10 +28,12 @@ To create a release for the application, follow these steps:
 
 1. The version number is auto=incremented in the form 1.0.nn 
 2. Push the changes to the remote repository.
-3. Run ```./scripts/release.ps1```
-4. Also run ```./scripts/release.ps1 -DryRun``` to check without creating a new Release
+3. Run ```./scripts/release.ps1 -DryRun``` to check without creating a new Release
     - The version does get auto-incremented though.
-5. There are some scripts for resetting the version.
+4. Run ```scripts/enable-release-workflow.ps1``` to enable the release workflow.
+5. Run ```./scripts/release.ps1```
+6. Run ```scripts/disable-release-workflow.ps1``` to disable the release workflow. **Important**
+7. There are some scripts for resetting the version.
 
 ## Reuse
 
