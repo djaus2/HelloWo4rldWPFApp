@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - main        # Run on every commit
+    tags:
+      - 'v*'        # Run on version tags (v1.0.0 etc.)
   workflow_dispatch:
     inputs:
       app_name:
@@ -20,7 +22,6 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    environment: production   # requires you to configure the 'production' environment in the repo
     env:
       APP_NAME: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.app_name || 'HelloWo4rldWPFApp' }}
 
@@ -66,6 +67,3 @@ jobs:
         # Provide a Personal Access Token (PAT) with appropriate permissions as a repository secret
         # Create a secret named `RELEASE_PAT` in the repo (Settings → Secrets → Actions) and set it to your token.
         GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
-
-# example in release.ps1
-# gh workflow run .github/workflows/release.yml --ref main -f app_name="HelloWo4rldWPFApp"
