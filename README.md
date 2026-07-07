@@ -67,8 +67,14 @@ env:
 
  ## Future Improvements
  - ~~Pass the app name as a parameter from release.ps1 to the release.yml file so that it can be used in the workflow without needing to edit the workflow file.~~
- - Dispensing withthat idea.
- - That would mean making secrets available.
- - So as is need to be logged into GitHub with the repository credentials, ie can push, for release.ps1 to work.
+ - ~~Dispensing withthat idea.~~
+ - ~~That would mean making secrets available~~.
+ - ~~So as is need to be logged into GitHub with the repository credentials, ie can push, for release.ps1 to work.~~
  - ***Simplest:*** Just change the app name in release.yml
- - Issue though: seems that anyone can currently create a release?? :(
+ - ~~Issue though: seems that anyone can currently create a release?? :(~~
+ - Fixed this another way:
+   - _Still:_ Set the app name in release.yml as above if using in new app.
+   - Run scripts/enable-release-workflow.ps1  Changes release.yml so that when release.ps1 is run a new release IS created.
+   - Run scripts/disable-release-workflow.ps1  Changes release.yml so that when release.ps1 is run no new release is created.
+   - Leave in disable state between releases.
+   - Both involve a repository commit so user needs to be logged in with push rights.

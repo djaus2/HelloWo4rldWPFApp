@@ -1,7 +1,17 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path=".github/workflows/release.yml" />
+  <Folder Name="/Solution Items/"> 
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts/clean-release-tags.ps1" />
+    <File Path="scripts/clear-remote-tags.ps1" />
+    <File Path="scripts/commit-scripts-updates.ps1" />
+    <File Path="scripts/disable-release-workflow.ps1" />
+    <File Path="scripts/enable-release-workflow.ps1" />
+    <File Path="scripts/move-release-to-scripts.ps1" />
+    <File Path="scripts/release.ps1" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
   <Project Path="HelloWo4rldWPFApp/HelloWo4rldWPFApp.csproj" />
+  <File Path=".github/workflows/release.yml" />
 </Solution>
