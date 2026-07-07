@@ -1,8 +1,6 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".github/workflows/release.yml" />
-    <File Path="clean-release-tags.ps1" />
-    <File Path="clear-remote-tags.ps1" />
     <File Path="README.md" />
   </Folder>
   <Project Path="HelloWo4rldWPFApp/HelloWo4rldWPFApp.csproj" />
