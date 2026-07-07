@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /HelloWo4rldWPFApp/HelloWo4rldWPFAppV1.0.0.zip
+/.github/workflows/release.yml.bak.disable
