@@ -4,7 +4,6 @@
     <File Path="clean-release-tags.ps1" />
     <File Path="clear-remote-tags.ps1" />
     <File Path="README.md" />
-    <File Path="release.ps1" />
   </Folder>
   <Project Path="HelloWo4rldWPFApp/HelloWo4rldWPFApp.csproj" />
 </Solution>

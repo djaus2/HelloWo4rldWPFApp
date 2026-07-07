@@ -28,8 +28,8 @@ To create a release for the application, follow these steps:
 
 1. The version number is auto=incremented in the form 1.0.nn 
 2. Push the changes to the remote repository.
-3. Run ```./release.ps1```
-4. Also run ```./release.ps1 -DryRun``` to check without creating a new Release
+3. Run ```./scripts/release.ps1```
+4. Also run ```./scripts/release.ps1 -DryRun``` to check without creating a new Release
     - The version does get auto-incremented though.
 5. There are some scripts for resetting the version.
 
@@ -54,7 +54,7 @@ SolutionFolder
 ```
 
 To use this Release mechanism in another WPF project:
-- Copy the release.ps1 script to the root of the new project.
+- Copy the `scripts/release.ps1` script to the root of the new project's scripts folder (or adapt).
 - In the target root:
   - mkdir .github
   - mkdir .github/workflows
@@ -72,4 +72,3 @@ env:
  - So as is need to be logged into GitHub with the repository credentials, ie can push, for release.ps1 to work.
  - ***Simplest:*** Just change the app name in release.yml
  - Issue though: seems that anyone can currently create a release?? :(
- - 

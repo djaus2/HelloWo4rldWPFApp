@@ -3,7 +3,15 @@ param(
     [string]$version
 )
 
-$versionFile = ".version"
+# Determine repository root relative to script location so script can run from scripts\ folder
+if ($PSScriptRoot) {
+    $repoRoot = Split-Path -Parent $PSScriptRoot
+} else {
+    # fallback if run interactively
+    $repoRoot = (Get-Location).Path
+}
+
+$versionFile = Join-Path $repoRoot ".version"
 
 # ✅ Function: Increment patch version
 function Increment-Version($ver) {
