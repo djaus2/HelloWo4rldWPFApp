@@ -56,7 +56,7 @@ SolutionFolder
 ```
 
 To use this Release mechanism in another WPF project:
-- Copy the `scripts/release.ps1` script to the root of the new project's scripts folder (or adapt).
+- Copy the `scripts` folder to the root of the new project's scripts folder (or adapt).
 - In the target root:
   - mkdir .github
   - mkdir .github/workflows
@@ -80,3 +80,33 @@ env:
    - Run scripts/disable-release-workflow.ps1  Changes release.yml so that when release.ps1 is run no new release is created.
    - Leave in disable state between releases.
    - Both involve a repository commit so user needs to be logged in with push rights.
+
+   ## An Example of the above in action:
+   - Enable Release
+   - Create Release
+   - Disable Release
+```
+PS c:\User\source\repos\HelloWo4rldWPFApp> scripts\enable-release-workflow.ps1
+Restored .github\workflows\release.yml from backup and removed backup: .github\workflows\release.yml.bak.disable
+[master 930f417] chore(release): enable release workflow (automated) [2026-07-07T15:14:16]
+ 1 file changed, 19 insertions(+), 19 deletions(-)
+Pushing commit to origin/master...
+...
+...
+Workflow restored and change pushed to origin/master.
+
+PS c:\User\source\repos\HelloWo4rldWPFApp> scripts\release.ps1
+Last version found: v1.0.23
+Auto-incremented version: v1.0.24
+Creating tag v1.0.24...
+...
+...
+ * [new tag]         v1.0.24 -> v1.0.24
+âœ… Release triggered for v1.0.24
+
+PS c:\User\source\repos\HelloWo4rldWPFApp> scripts\disable-release-workflow.ps1
+Backup created: .github\workflows\release.yml.bak.disable
+...
+...
+Workflow disabled and change pushed to origin/master.
+```
